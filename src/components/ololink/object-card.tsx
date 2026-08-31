@@ -4,7 +4,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { X, Crosshair, ArrowDown } from 'lucide-react';
 
 import { cn } from '@/lib/utils';
-import { ASSET_BY_ID, KIND_META, STATUS_META, TECH_META, type LinkState, type Segment } from '@/lib/ololink';
+import { ASSET_BY_ID, STATUS_META, TECH_META, type LinkState, type Segment } from '@/lib/ololink';
 import { STORAGE_TB, chainForAsset } from '@/lib/chain';
 import type { OloLinkState } from '@/hooks/use-ololink';
 
@@ -112,43 +112,24 @@ function NodeLink({ state, id, label }: { state: OloLinkState; id?: string | und
 function AssetBody({ state, id }: { state: OloLinkState; id: string }) {
   const asset = ASSET_BY_ID[id];
   if (!asset) return null;
-  const onRoute = state.profile.route.includes(id);
-  const related = state.links.filter((l) => l.segment.from === id || l.segment.to === id);
-  const available = Array.from(new Set(related.map((l) => l.segment.tech)));
-  const active = related.find((l) => l.status === 'ACTIVE');
-  const currentTech = active ? TECH_META[active.segment.tech] : null;
   const site = chainForAsset(state.chains, id);
 
   return (
     <>
       <Line label="Name" value={asset.name} />
-      <Line label="Class" value={KIND_META[asset.kind].label} />
-      <Line
-        label="Status"
-        value={onRoute ? 'ACTIVE' : asset.health}
-        tone={onRoute ? 'text-emerald-300' : asset.health === 'NOMINAL' ? 'text-emerald-300' : 'text-amber-300'}
-      />
-      <Line label="Altitude" value={asset.altKm > 0 ? `${asset.altKm} km` : 'Surface'} />
-
-      {/* --- role-specific chain readout (identical in 2D and 3D) --- */}
       {asset.kind === 'haps' && site && (
         <>
-          <NodeLink state={state} id={site.chain.leoId ?? undefined} label="Receiving from LEO" />
-          <Line label="Ingest rate" value={`${site.chain.hapsInGbps.toFixed(2)} Gbps`} />
           <Line label="Data received" value={`${site.chain.hapsReceivedTb.toFixed(2)} TB`} />
-          <NodeLink state={state} id={site.site.droneId} label="Connected drone" />
           <Storage used={site.chain.hapsStoredTb} />
+          <NodeLink state={state} id={site.site.droneId} label="Connected drone" />
         </>
       )}
 
       {asset.kind === 'drone' && site && (
         <>
-          <NodeLink state={state} id={site.site.hapsId} label="Receiving from HAPS" />
-          <Line label="Ingest rate" value={`${site.chain.droneInGbps.toFixed(2)} Gbps`} />
           <Line label="Data received" value={`${site.chain.droneReceivedTb.toFixed(2)} TB`} />
-          <Line label="Current mode" value={site.chain.droneMode} tone="text-sky-300" />
+          <Line label="Mode" value={site.chain.droneMode} tone="text-sky-300" />
           <NodeLink state={state} id={site.site.groundId} label="Connected ground station" />
-          <Storage used={site.chain.droneStoredTb} />
         </>
       )}
 
@@ -160,47 +141,9 @@ function AssetBody({ state, id }: { state: OloLinkState; id: string }) {
             value={site.chain.groundReceiving ? 'RECEIVING' : 'IDLE'}
             tone={site.chain.groundReceiving ? 'text-emerald-300' : 'text-muted-foreground'}
           />
-          <Line label="Downlink rate" value={`${site.chain.groundInGbps.toFixed(2)} Gbps`} />
           <Line label="Data received" value={`${site.chain.groundReceivedTb.toFixed(2)} TB`} />
         </>
       )}
-
-      <Line label="Role" value={onRoute ? 'Adaptive relay' : asset.role} />
-      <Line
-        label="Current link"
-        value={currentTech ? currentTech.short : '—'}
-        tone={currentTech ? undefined : 'text-muted-foreground'}
-      />
-      <Line label="Bandwidth" value={`${(active?.bandwidth ?? state.telemetry.bandwidth).toFixed(2)} Gbps`} />
-      <Line label="Latency" value={`${active?.latency ?? state.telemetry.latency} ms`} />
-      <Line
-        label="AI status"
-        value={onRoute ? 'Optimized' : 'Reserve pool'}
-        tone={onRoute ? 'text-sky-300' : 'text-muted-foreground'}
-      />
-
-      {onRoute && <PathChain segments={state.route} state={state} />}
-
-      <div className="mt-3">
-        <div className="text-[9px] uppercase tracking-[0.24em] text-muted-foreground/60">Available links</div>
-        <div className="mt-1.5 flex flex-wrap gap-1.5">
-          {available.length === 0 && <span className="text-[11px] text-muted-foreground">None</span>}
-          {available.map((t) => {
-            const off = state.profile.blockedTech.includes(t);
-            return (
-              <span
-                key={t}
-                className={cn(
-                  'rounded border px-1.5 py-0.5 text-[9px] uppercase tracking-[0.14em]',
-                  off ? 'border-rose-500/25 text-rose-400/80 line-through' : 'border-white/[0.09] text-foreground/85'
-                )}
-              >
-                {TECH_META[t].short}
-              </span>
-            );
-          })}
-        </div>
-      </div>
     </>
   );
 }
@@ -293,22 +236,6 @@ export function ObjectCard({ state }: { state: OloLinkState }) {
             <LinkBody link={link} state={state} />
           ) : null}
 
-          <div className="mt-4 flex gap-1.5 border-t border-white/[0.06] pt-3">
-            <button
-              type="button"
-              onClick={() => state.setPanel(sel.type === 'asset' ? 'assets' : 'network')}
-              className="flex-1 rounded-md border border-white/[0.09] px-2 py-1.5 text-[9px] uppercase tracking-[0.18em] text-muted-foreground transition-colors hover:border-sky-400/30 hover:text-foreground"
-            >
-              Open workspace
-            </button>
-            <button
-              type="button"
-              onClick={() => state.setPanel('intel')}
-              className="flex-1 rounded-md border border-sky-400/25 bg-sky-500/[0.08] px-2 py-1.5 text-[9px] uppercase tracking-[0.18em] text-sky-200 transition-colors hover:bg-sky-500/[0.16]"
-            >
-              AI routing
-            </button>
-          </div>
         </motion.div>
       )}
     </AnimatePresence>
