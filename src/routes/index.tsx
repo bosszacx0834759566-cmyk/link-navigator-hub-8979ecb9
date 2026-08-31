@@ -1,5 +1,5 @@
 import { createFileRoute } from '@tanstack/react-router';
-import { lazy, Suspense } from 'react';
+import { lazy, Suspense, useEffect } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 
 import { useOloLink } from '@/hooks/use-ololink';
@@ -42,11 +42,31 @@ export const Route = createFileRoute('/')({
 
 function Explorer() {
   const state = useOloLink();
+  const { setPanel, select } = state;
+
+  // Esc closes any open panel / inspector
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setPanel(null);
+        select(null);
+      }
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [setPanel, select]);
 
   return (
     <div className="relative h-screen w-full overflow-hidden bg-black text-foreground">
       {/* LEVEL 1 — spatial environment */}
-      <div className="absolute inset-0">
+      <div
+        className="absolute inset-0"
+        onPointerDownCapture={() => {
+          setPanel(null);
+          select(null);
+        }}
+      >
+
         <Suspense
           fallback={
             <div className="flex h-full items-center justify-center">
