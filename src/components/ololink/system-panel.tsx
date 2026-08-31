@@ -255,7 +255,7 @@ export function SystemPanel({ state }: { state: OloLinkState }) {
           animate={{ x: 0, opacity: 1 }}
           exit={{ x: -24, opacity: 0 }}
           transition={{ type: 'spring', stiffness: 260, damping: 28 }}
-          className="pointer-events-auto absolute bottom-3 left-[64px] top-14 z-30 flex w-[340px] flex-col overflow-hidden rounded-2xl border border-white/20 bg-white/15 shadow-[0_8px_32px_-8px_rgba(0,0,0,0.45)] backdrop-blur-2xl backdrop-saturate-150"
+          className="pointer-events-auto absolute bottom-3 left-[64px] top-14 z-30 flex w-[340px] flex-col overflow-hidden rounded-2xl border border-white/25 bg-[#050505] shadow-[0_10px_40px_-10px_rgba(0,0,0,0.85)]"
         >
           <header className="flex items-start justify-between gap-3 border-b border-white/[0.06] px-5 py-3.5">
             <div>

@@ -79,7 +79,7 @@ export function WorkspaceContext({
   const meta = WORKSPACE_TABS.find((t) => t.id === workspace)!;
 
   return (
-    <section className="pointer-events-none absolute right-4 top-[92px] z-20 w-[196px] rounded-2xl border border-white/20 bg-white/15 px-3 py-2.5 shadow-[0_8px_32px_-8px_rgba(0,0,0,0.45)] backdrop-blur-2xl backdrop-saturate-150">
+    <section className="pointer-events-none absolute right-4 top-[92px] z-20 w-[196px] rounded-2xl border border-white/25 bg-[#050505] px-3 py-2.5 shadow-[0_10px_40px_-10px_rgba(0,0,0,0.85)]">
       <header className="mb-2 border-b border-white/[0.06] pb-2">
         <h2 className="font-mono text-[9px] uppercase tracking-[0.26em] text-sky-200/90">
           {meta.label}
