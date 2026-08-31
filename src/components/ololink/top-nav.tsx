@@ -66,7 +66,7 @@ export function TopNav({
   const settings = RAIL_ITEMS.find((i) => i.id === 'settings')!;
 
   return (
-    <nav className="pointer-events-auto absolute inset-x-0 top-0 z-40 flex h-14 items-center gap-3 border-b border-white/[0.06] bg-black/60 px-4 backdrop-blur-xl">
+    <nav className="pointer-events-auto absolute inset-x-0 top-0 z-40 flex h-14 items-center gap-3 border-b border-white/25 bg-[#050505] px-4">
       {/* brand mark */}
       <div className="flex shrink-0 items-center gap-2.5">
         <img src={logoUrl} alt="OloLink logo" className="h-7 w-auto" />

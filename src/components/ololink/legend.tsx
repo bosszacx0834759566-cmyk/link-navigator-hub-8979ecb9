@@ -101,7 +101,7 @@ function TechGlyph({ tech }: { tech: Tech }) {
 export function Legend({ open }: { open: boolean }) {
   if (!open) return null;
   return (
-    <div className="pointer-events-none absolute bottom-24 left-16 z-20 hidden w-[188px] rounded-2xl border border-white/20 bg-white/15 p-3 shadow-[0_8px_32px_-8px_rgba(0,0,0,0.45)] backdrop-blur-2xl backdrop-saturate-150 lg:block">
+    <div className="pointer-events-none absolute bottom-24 left-16 z-20 hidden w-[188px] rounded-2xl border border-white/25 bg-[#050505] p-3 shadow-[0_10px_40px_-10px_rgba(0,0,0,0.85)] lg:block">
       <div className="text-[9px] uppercase tracking-[0.24em] text-muted-foreground/55">Infrastructure</div>
       <div className="mt-2 space-y-1.5">
         {KIND_ORDER.map((k) => (

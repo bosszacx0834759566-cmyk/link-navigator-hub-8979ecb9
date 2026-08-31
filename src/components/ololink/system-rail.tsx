@@ -54,7 +54,7 @@ export function SystemRail({ state }: { state: OloLinkState }) {
     <nav
       className={cn(
         'pointer-events-auto absolute left-3 top-1/2 z-40 flex h-auto w-[44px] -translate-y-1/2 flex-col items-center gap-1.5 rounded-2xl py-3 [scrollbar-width:none]',
-        'border border-white/20 bg-white/15 shadow-[0_8px_32px_-8px_rgba(0,0,0,0.45)] backdrop-blur-2xl backdrop-saturate-150',
+        'border border-white/25 bg-[#050505] shadow-[0_10px_40px_-10px_rgba(0,0,0,0.85)]',
         'before:pointer-events-none before:absolute before:inset-0 before:-z-10 before:rounded-2xl before:bg-gradient-to-b before:from-white/[0.10] before:via-white/[0.04] before:to-white/[0.02]'
       )}
     >

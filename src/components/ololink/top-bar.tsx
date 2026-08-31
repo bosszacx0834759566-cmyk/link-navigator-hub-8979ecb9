@@ -56,7 +56,7 @@ export function TopBar({ state }: { state: OloLinkState }) {
   const wxTone: Tone = profile.severity > 60 ? 'crit' : profile.severity > 30 ? 'warn' : 'ok';
 
   return (
-    <header className="pointer-events-auto absolute inset-x-0 top-0 z-40 flex h-12 items-center gap-6 border-b border-white/[0.06] bg-black/70 pl-4 pr-5 backdrop-blur-xl">
+    <header className="pointer-events-auto absolute inset-x-0 top-0 z-40 flex h-12 items-center gap-6 border-b border-white/25 bg-[#050505] pl-4 pr-5">
       <div className="flex w-[168px] shrink-0 items-center gap-2.5">
         <span className="flex h-6 w-6 items-center justify-center rounded-[6px] border border-sky-400/30 bg-sky-500/10">
           <Satellite className="h-3 w-3 text-sky-300" />

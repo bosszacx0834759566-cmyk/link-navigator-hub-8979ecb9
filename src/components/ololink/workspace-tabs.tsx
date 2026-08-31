@@ -19,7 +19,7 @@ export function WorkspaceTabs({
   onSelect: (id: WorkspaceId) => void;
 }) {
   return (
-    <nav className="pointer-events-auto absolute inset-x-0 top-12 z-40 flex h-9 items-center gap-1 border-b border-white/[0.06] bg-black/60 pl-3 pr-3 backdrop-blur-xl">
+    <nav className="pointer-events-auto absolute inset-x-0 top-12 z-40 flex h-9 items-center gap-1 border-b border-white/25 bg-[#050505] pl-3 pr-3">
       <span className="mr-2 font-mono text-[8px] uppercase tracking-[0.26em] text-muted-foreground/45">
         Workspace
       </span>
